@@ -287,6 +287,46 @@
             transform: translateY(-2px);
             box-shadow: 0 12px 20px rgba(200, 80, 192, 0.4);
         }
+
+        /* JS Валидация - специфични стилове */
+        input.is-invalid, select.is-invalid {
+            border-color: #ff4757 !important;
+            background-color: #fff0f1 !important;
+            box-shadow: 0 0 0 4px rgba(255, 71, 87, 0.15) !important;
+        }
+
+        input.is-valid, select.is-valid {
+            border-color: #2ed573 !important;
+            background-color: #f1fdf5 !important;
+        }
+
+        /* Бутон в състояние на зареждане */
+        .action-btn.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: #a0aec0 !important; /* Сиво докато зарежда */
+            box-shadow: none !important;
+        }
+        /* --- Специфични стилове за Error Modal --- */
+.modal-content.error-theme {
+    border: 2px solid rgba(255, 71, 87, 0.4);
+    box-shadow: 0 30px 60px rgba(255, 71, 87, 0.15);
+}
+
+.modal-content.error-theme h3 {
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.close-btn.error-btn {
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    box-shadow: 0 8px 15px rgba(255, 71, 87, 0.3);
+}
+
+.close-btn.error-btn:hover {
+    box-shadow: 0 12px 20px rgba(255, 71, 87, 0.4);
+}
     </style>
 </head>
 
@@ -305,56 +345,60 @@
 
 <div class="tab-content active">
     <h2>Заявка за кредит</h2>
-    <form action="#success-modal">
+    <form id="credit-form" novalidate>
         <label>Месечен доход</label>
-        <input type="number" class="validatable-input" min="0" step="any" required placeholder="Напр. 1500">
-        <span class="error-msg">Моля, въведете положителна сума.</span>
+        <input type="number" id="income-input" class="js-validate-input" step="any" placeholder="Напр. 1500">
+        <span id="income-error" class="error-msg">Моля, въведете положителна сума над 0.</span>
         
         <label>Кредитна история</label>
-        <select required>
-            <option style="color: #2ed573; font-weight: 700;">Добра</option>
-            <option style="color: #ffa502; font-weight: 700;">Средна</option>
-            <option style="color: #ff4757; font-weight: 700;">Лоша</option>
+        <select id="history-select" class="js-validate-input">
+            <option value="" disabled selected>Изберете история...</option>
+            <option value="good" style="color: #2ed573; font-weight: 700;">Добра</option>
+            <option value="average" style="color: #ffa502; font-weight: 700;">Средна</option>
+            <option value="bad" style="color: #ff4757; font-weight: 700;">Лоша</option>
         </select>
+        <span id="history-error" class="error-msg">Моля, изберете кредитната си история.</span>
 
-        <button type="submit" class="action-btn">Провери</button>
+        <button type="submit" id="credit-btn" class="action-btn">Провери</button>
     </form>
 </div>
 
 <div class="tab-content">
     <h2>Крипто транзакция</h2>
-    <form action="#success-modal">
+    <form id="crypto-form" novalidate>
         <label>Актив (Валута)</label>
-        <select required>
+        <select id="crypto-asset" class="js-validate-input">
+            <option value="" disabled selected>Изберете актив...</option>
             <option value="btc">Bitcoin (BTC)</option>
             <option value="eth">Ethereum (ETH)</option>
             <option value="usdt">Tether (USDT)</option>
         </select>
+        <span id="crypto-asset-error" class="error-msg">Моля, изберете криптовалута.</span>
 
         <label>TxID (Transaction Hash)</label>
-        <input type="text" class="validatable-input" maxlength="64" pattern="[a-fA-F0-9]{64}" required placeholder="Напр. f4184fc596403b9d...">
-        <span class="error-msg">Хешът трябва да е точно 64 шестнадесетични символа!</span>
+        <input type="text" id="crypto-hash" class="js-validate-input" placeholder="Напр. f4184fc596403b9d...">
+        <span id="crypto-hash-error" class="error-msg">Хешът трябва да е точно 64 шестнадесетични символа!</span>
 
         <label>Сума</label>
-        <input type="number" class="validatable-input" min="0.000001" step="any" required placeholder="0.00">
-        <span class="error-msg">Моля, въведете валидна сума.</span>
+        <input type="number" id="crypto-amount" class="js-validate-input" step="any" placeholder="0.00">
+        <span id="crypto-amount-error" class="error-msg">Моля, въведете валидна сума над 0.</span>
 
-        <button type="submit" class="action-btn">Изпрати превод</button>
+        <button type="submit" id="crypto-btn" class="action-btn">Изпрати превод</button>
     </form>
 </div>
 
 <div class="tab-content">
     <h2>Овърдрафт</h2>
-    <form action="#success-modal">
+    <form id="overdraft-form" novalidate>
         <label>Текущ баланс (€)</label>
-        <input type="number" class="validatable-input" step="0.01" required placeholder="Напр. 250.50">
-        <span class="error-msg">Моля, въведете валиден баланс.</span>
+        <input type="number" id="overdraft-balance" class="js-validate-input" step="0.01" placeholder="Напр. -150.00">
+        <span id="overdraft-balance-error" class="error-msg">Моля, въведете валиден числов баланс.</span>
 
         <label>Искана сума (€)</label>
-        <input type="number" class="validatable-input" min="5" max="2500" step="0.01" required placeholder="Лимит до 2500">
-        <span class="error-msg">Сумата трябва да е между 5 и 2500.</span>
+        <input type="number" id="overdraft-amount" class="js-validate-input" step="0.01" placeholder="Лимит до 2500 €">
+        <span id="overdraft-amount-error" class="error-msg">Сумата трябва да е между 5 и 2500 €.</span>
 
-        <button type="submit" class="action-btn">Провери лимит</button>
+        <button type="submit" id="overdraft-btn" class="action-btn">Провери лимит</button>
     </form>
 </div>
 
@@ -421,6 +465,261 @@
         contents[index].classList.add('active');
         buttons[index].classList.add('active');
     }
+
+    // JS Валидация за формата на кредит ==========================================================================
+    document.getElementById('credit-form').addEventListener('submit', function(e) {
+        // 1. Спираме стандартното презареждане на страницата
+        e.preventDefault();
+
+        // 2. Взимаме елементите
+        const incomeInput = document.getElementById('income-input');
+        const incomeError = document.getElementById('income-error');
+        const historySelect = document.getElementById('history-select');
+        const historyError = document.getElementById('history-error');
+        const submitBtn = document.getElementById('credit-btn');
+
+        let isValid = true;
+
+        // 3. Валидация на дохода
+        const incomeValue = parseFloat(incomeInput.value);
+        if (isNaN(incomeValue) || incomeValue <= 0) {
+            incomeInput.classList.add('is-invalid');
+            incomeInput.classList.remove('is-valid');
+            incomeError.style.display = 'block';
+            isValid = false;
+        } else {
+            incomeInput.classList.remove('is-invalid');
+            incomeInput.classList.add('is-valid');
+            incomeError.style.display = 'none';
+        }
+
+        // 4. Валидация на падащото меню
+        if (historySelect.value === "") {
+            historySelect.classList.add('is-invalid');
+            historySelect.classList.remove('is-valid');
+            historyError.style.display = 'block';
+            isValid = false;
+        } else {
+            historySelect.classList.remove('is-invalid');
+            historySelect.classList.add('is-valid');
+            historyError.style.display = 'none';
+        }
+
+        // 5. Ако има грешки, спираме изпълнението до тук
+        if (!isValid) return;
+
+        // 6. Симулиране на зареждане (Loading State)
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = 'Проверява се...';
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        // Изчакваме 1.5 секунди за ефект (Loading State)
+        setTimeout(() => {
+            // Връщаме бутона в нормално състояние
+            submitBtn.innerText = originalBtnText;
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+
+            // 7. Бизнес логика: Отказ на кредит при нисък доход и лоша история
+            if (incomeValue < 1000 && historySelect.value === "bad") {
+                
+                // USE THE NEW REUSABLE FUNCTION HERE!
+                showErrorModal(
+                    'Заявката е отхвърлена', 
+                    'Съжаляваме, но не можем да одобрим кредита ви в момента поради висок риск (нисък доход в комбинация с лоша кредитна история).'
+                );
+                
+            } else if (incomeValue < 500) {
+                
+                // Example of a DIFFERENT error for the exact same form
+                showErrorModal(
+                    'Недостатъчен доход', 
+                    'Минималният изискуем месечен доход за кандидатстване е 500 лв.'
+                );
+
+            } else {
+                // Ако всичко е наред, показваме зеления модал за успех
+                window.location.hash = 'success-modal';
+            }
+        }, 1500);
+    }); // <-- ТОВА ЛИПСВАШЕ! ЗАТВАРЯ addEventListener-а
+
+    // JS Валидация за формата на Крипто ==========================================================================
+    document.getElementById('crypto-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const assetSelect = document.getElementById('crypto-asset');
+        const assetError = document.getElementById('crypto-asset-error');
+        
+        const hashInput = document.getElementById('crypto-hash');
+        const hashError = document.getElementById('crypto-hash-error');
+        
+        const amountInput = document.getElementById('crypto-amount');
+        const amountError = document.getElementById('crypto-amount-error');
+        
+        const submitBtn = document.getElementById('crypto-btn');
+
+        let isValid = true;
+
+        // 1. Валидация на актива
+        if (assetSelect.value === "") {
+            assetSelect.classList.add('is-invalid');
+            assetSelect.classList.remove('is-valid');
+            assetError.style.display = 'block';
+            isValid = false;
+        } else {
+            assetSelect.classList.remove('is-invalid');
+            assetSelect.classList.add('is-valid');
+            assetError.style.display = 'none';
+        }
+
+        // 2. Валидация на Хеша (Точно 64 символа, само a-f, A-F, 0-9)
+        const hashRegex = /^[a-fA-F0-9]{64}$/;
+        if (!hashRegex.test(hashInput.value)) {
+            hashInput.classList.add('is-invalid');
+            hashInput.classList.remove('is-valid');
+            hashError.style.display = 'block';
+            isValid = false;
+        } else {
+            hashInput.classList.remove('is-invalid');
+            hashInput.classList.add('is-valid');
+            hashError.style.display = 'none';
+        }
+
+        // 3. Валидация на сумата
+        const amountValue = parseFloat(amountInput.value);
+        if (isNaN(amountValue) || amountValue <= 0) {
+            amountInput.classList.add('is-invalid');
+            amountInput.classList.remove('is-valid');
+            amountError.style.display = 'block';
+            isValid = false;
+        } else {
+            amountInput.classList.remove('is-invalid');
+            amountInput.classList.add('is-valid');
+            amountError.style.display = 'none';
+        }
+
+        if (!isValid) return;
+
+        // 4. Loading State
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = 'Излъчване към мрежата...';
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+            submitBtn.innerText = originalBtnText;
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+
+            // 5. Бизнес логика: Проверка за наличност (Мокване на баланс = 500)
+            const MOCK_WALLET_BALANCE = 500; 
+
+            if (amountValue > MOCK_WALLET_BALANCE) {
+                // Използваме твоята универсална функция за грешки!
+                showErrorModal(
+                    'Недостатъчен баланс', 
+                    `Опитвате се да изпратите ${amountValue} ${assetSelect.value.toUpperCase()}, но разполагате само с ${MOCK_WALLET_BALANCE} ${assetSelect.value.toUpperCase()} в портфейла си.`
+                );
+            } else {
+                window.location.hash = 'success-modal';
+            }
+        }, 1800); // 1.8 секунди, за да имитираме блокчейн транзакция
+    });
+
+    // JS Валидация за формата на Овърдрафт =======================================================================
+    document.getElementById('overdraft-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const balanceInput = document.getElementById('overdraft-balance');
+        const balanceError = document.getElementById('overdraft-balance-error');
+        
+        const amountInput = document.getElementById('overdraft-amount');
+        const amountError = document.getElementById('overdraft-amount-error');
+        
+        const submitBtn = document.getElementById('overdraft-btn');
+
+        let isValid = true;
+
+        // 1. Валидация на баланс (Може да бъде и отрицателен, затова проверяваме само дали е NaN)
+        const balanceValue = parseFloat(balanceInput.value);
+        if (isNaN(balanceValue)) {
+            balanceInput.classList.add('is-invalid');
+            balanceInput.classList.remove('is-valid');
+            balanceError.style.display = 'block';
+            isValid = false;
+        } else {
+            balanceInput.classList.remove('is-invalid');
+            balanceInput.classList.add('is-valid');
+            balanceError.style.display = 'none';
+        }
+
+        // 2. Валидация на исканата сума (Между 5 и 2500)
+        const amountValue = parseFloat(amountInput.value);
+        if (isNaN(amountValue) || amountValue < 5 || amountValue > 2500) {
+            amountInput.classList.add('is-invalid');
+            amountInput.classList.remove('is-valid');
+            amountError.style.display = 'block';
+            isValid = false;
+        } else {
+            amountInput.classList.remove('is-invalid');
+            amountInput.classList.add('is-valid');
+            amountError.style.display = 'none';
+        }
+
+        if (!isValid) return;
+
+        // 3. Loading State
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = 'Анализиране на риска...';
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+            submitBtn.innerText = originalBtnText;
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+
+            // 4. Бизнес логика: Изчисляване на свободен лимит
+            const MAX_OVERDRAFT_LIMIT = 2500;
+            
+            // Ако балансът е отрицателен, го добавяме (реално изваждаме, защото е минус) към макс лимита.
+            // Ако балансът е положителен, свободният лимит е целият MAX_OVERDRAFT_LIMIT (2500).
+            const availableLimit = balanceValue < 0 ? (MAX_OVERDRAFT_LIMIT + balanceValue) : MAX_OVERDRAFT_LIMIT;
+
+            if (balanceValue <= -MAX_OVERDRAFT_LIMIT) {
+                // Случай 1: Вече е задлъжнял на макс
+                showErrorModal(
+                    'Лимитът е изчерпан', 
+                    'Вече сте достигнали или надвишили максималния позволен овърдрафт от 2500 €. Моля, погасете част от задължението си.'
+                );
+            } else if (amountValue > availableLimit) {
+                // Случай 2: Иска повече, отколкото му остава като "буфер"
+                showErrorModal(
+                    'Недостатъчен лимит', 
+                    `Можете да заявите максимум още ${availableLimit.toFixed(2)} €, тъй като текущият ви дълг е ${Math.abs(balanceValue).toFixed(2)} €.`
+                );
+            } else {
+                // Случай 3: Всичко е точно
+                window.location.hash = 'success-modal';
+            }
+        }, 1600);
+    });
+
+    // Helper function to show dynamic errors
+    function showErrorModal(title, message) {
+        // 1. Find the modal elements
+        const modalTitle = document.getElementById('error-modal-title');
+        const modalDesc = document.getElementById('error-modal-desc');
+
+        // 2. Inject the custom text
+        modalTitle.innerText = title;
+        modalDesc.innerText = message;
+
+        // 3. Open the modal
+        window.location.hash = 'error-modal';
+    }
 </script>
 
 <div id="success-modal" class="modal">
@@ -428,6 +727,12 @@
         <h3>Успешна операция!</h3>
         <p>Вашата заявка беше обработена успешно.</p>
         <a href="#" class="close-btn">Разбрах</a>
+    </div>
+</div> <div id="error-modal" class="modal">
+    <div class="modal-content error-theme">
+        <h3 id="error-modal-title">Възникна грешка</h3>
+        <p id="error-modal-desc">Нещо се обърка. Моля, опитайте отново.</p>
+        <a href="#" class="close-btn error-btn">Разбрах</a>
     </div>
 </div>
 
