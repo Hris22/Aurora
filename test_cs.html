@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Финансови операции</title>
+
+    <style>
+        /* --- VIBRANT & SMOOTH ДИЗАЙН --- */
+        
+        /* Анимиран градиентен фон */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(-45deg, #4158D0, #C850C0, #2ee0d1, #ff6b6b);
+            background-size: 400% 400%;
+            animation: smoothGradient 15s ease infinite;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        @keyframes smoothGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Навигационно Header Меню - Glassmorphism */
+        .header-menu {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            margin: 0 6px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #C850C0;
+            border-color: white;
+            text-shadow: none;
+            box-shadow: 0 8px 25px rgba(200, 80, 192, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Content Cards - Glassmorphism */
+        .tab-content {
+            display: none;
+            max-width: 420px;
+            margin: 30px auto 60px auto;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 40px 35px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content h2 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #2d3748;
+            background: linear-gradient(135deg, #4158D0, #C850C0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            color: #4a5568;
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px 18px;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2d3748;
+            font-size: 15px;
+            font-weight: 500;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        input:focus, select:focus {
+            background: white;
+            border-color: #C850C0;
+            box-shadow: 0 0 0 4px rgba(200, 80, 192, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Градиентни Action Бутони */
+        button.action-btn {
+            margin-top: 35px;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #4158D0 0%, #C850C0 50%, #FFCC70 100%);
+            background-size: 200% auto;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(200, 80, 192, 0.3);
+        }
+
+        button.action-btn:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(200, 80, 192, 0.4);
+        }
+
+        button.action-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 10px rgba(200, 80, 192, 0.3);
+        }
+
+        /* --- Универсална Валидация --- */
+        .error-msg {
+            display: none;
+            color: #ff4757;
+            font-size: 13px;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        input.validatable-input:not(:placeholder-shown):invalid + .error-msg {
+            display: block;
+            animation: popError 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popError {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* 1. ВАЛИДНО */
+        input.validatable-input:not(:placeholder-shown):valid {
+            border-color: #2ed573;
+            background-color: #f1fdf5;
+        }
+
+        /* 2. ПИШЕ В МОМЕНТА (НЕВАЛИДНО) */
+        input.validatable-input:focus:invalid {
+            border-color: #ffa502;
+            background-color: #fffaf0;
+            box-shadow: 0 0 0 4px rgba(255, 165, 2, 0.15);
+        }
+
+        /* 3. ИЗЛЯЗЪЛ (НЕВАЛИДНО) */
+        input.validatable-input:not(:focus):not(:placeholder-shown):invalid {
+            border-color: #ff4757;
+            background-color: #fff0f1;
+        }
+
+        /* --- Изскачащо съобщение за успех (Modal) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal:target {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            max-width: 320px;
+            border: 2px solid rgba(255,255,255,0.8);
+            animation: modalScale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes modalScale {
+            from { transform: scale(0.8) translateY(30px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .modal-content h3 {
+            background: linear-gradient(135deg, #2ed573, #1e90ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 0;
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .modal-content p {
+            color: #718096;
+            line-height: 1.6;
+            font-size: 15px;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .close-btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: linear-gradient(135deg, #4158D0, #C850C0);
+            color: white;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 700;
+            box-shadow: 0 8px 15px rgba(200, 80, 192, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(200, 80, 192, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="header-menu">
+    <button class="tab-button active" onclick="openTab(0)">Кредит</button>
+    <button class="tab-button" onclick="openTab(1)">Крипто</button>
+    <button class="tab-button" onclick="openTab(2)">Овърдрафт</button>
+    <button class="tab-button" onclick="openTab(3)">Карта</button>
+    <button class="tab-button" onclick="openTab(4)">Обмен</button>
+    <button class="tab-button" onclick="openTab(5)">Парола</button>
+</nav>
+
+<h1>Финансови операции</h1>
+
+<div class="tab-content active">
+    <h2>Заявка за кредит</h2>
+    <form action="#success-modal">
+        <label>Месечен доход</label>
+        <input type="number" class="validatable-input" min="0" step="any" required placeholder="Напр. 1500">
+        <span class="error-msg">Моля, въведете положителна сума.</span>
+        
+        <label>Кредитна история</label>
+        <select required>
+            <option style="color: #2ed573; font-weight: 700;">Добра</option>
+            <option style="color: #ffa502; font-weight: 700;">Средна</option>
+            <option style="color: #ff4757; font-weight: 700;">Лоша</option>
+        </select>
+
+        <button type="submit" class="action-btn">Провери</button>
+    </form>
+</div>
+
+<div class="tab-content">
+    <h2>Крипто транзакция</h2>
+    <form action="#success-modal">
+        <label>Актив (Валута)</label>
+        <select required>
+            <option value="btc">Bitcoin (BTC)</option>
+            <option value="eth">Ethereum (ETH)</option>
+            <option value="usdt">Tether (USDT)</option>
+        </select>
+
+        <label>TxID (Transaction Hash)</label>
+        <input type="text" class="validatable-input" maxlength="64" pattern="[a-fA-F0-9]{64}" required placeholder="Напр. f4184fc596403b9d...">
+        <span class="error-msg">Хешът трябва да е точно 64 шестнадесетични символа!</span>
+
+        <label>Сума</label>
+        <input type="number" class="validatable-input" min="0.000001" step="any" required placeholder="0.00">
+        <span class="error-msg">Моля, въведете валидна сума.</span>
+
+        <button type="submit" class="action-btn">Изпрати превод</button>
+    </form>
+</div>
+
+<div class="tab-content">
+    <h2>Овърдрафт</h2>
+    <form action="#success-modal">
+        <label>Текущ баланс (€)</label>
+        <input type="number" class="validatable-input" step="0.01" required placeholder="Напр. 250.50">
+        <span class="error-msg">Моля, въведете валиден баланс.</span>
+
+        <label>Искана сума (€)</label>
+        <input type="number" class="validatable-input" min="5" max="2500" step="0.01" required placeholder="Лимит до 2500">
+        <span class="error-msg">Сумата трябва да е между 5 и 2500.</span>
+
+        <button type="submit" class="action-btn">Провери лимит</button>
+    </form>
+</div>
+
+<div class="tab-content">
+    <h2>Корпоративна карта</h2>
+    <form action="#success-modal">
+        <label>Ниво на достъп</label>
+        <select required>
+            <option value="employee">Служител</option>
+            <option value="manager">Мениджър</option>
+            <option value="admin">Администратор</option>
+        </select>
+
+        <label>Код за оторизация (8-12 знака)</label>
+        <input type="text" class="validatable-input" pattern="^[A-Z0-9]{8,12}$" placeholder="Напр. AUTH1234XYZ" required>
+        <span class="error-msg">Трябва да съдържа между 8 и 12 главни букви или цифри.</span>
+
+        <button type="submit" class="action-btn">Регистрирай</button>
+    </form>
+</div>
+
+<div class="tab-content">
+    <h2>Валутен обмен</h2>
+    <form action="#success-modal">
+        <label>От валута (3 букви)</label>
+        <input type="text" class="validatable-input" pattern="^[A-Za-z]{3}$" maxlength="3" required value="EUR" readonly>
+        <span class="error-msg">Въведете точно 3 букви.</span>
+
+        <label>Към валута (3 букви)</label>
+        <input type="text" class="validatable-input" pattern="^[A-Za-z]{3}$" maxlength="3" required placeholder="Напр. USD">
+        <span class="error-msg">Въведете точно 3 букви.</span>
+
+        <label>Сума (€)</label>
+        <input type="number" class="validatable-input" min="0.01" step="0.01" placeholder="0.00" required>
+        <span class="error-msg">Моля, въведете валидна сума.</span>
+
+        <button type="submit" class="action-btn">Обмени</button>
+    </form>
+</div>
+
+<div class="tab-content">
+    <h2>Възстановяване на парола</h2>
+    <form action="#success-modal">
+        <label>Email</label>
+        <input type="email" class="validatable-input" placeholder="name@example.com" required>
+        <span class="error-msg">Въведете валиден имейл адрес.</span>
+
+        <label>MFA код (6 цифри)</label>
+        <input type="text" class="validatable-input" pattern="^[0-9]{6}$" maxlength="6" placeholder="123456" required>
+        <span class="error-msg">Кодът трябва да се състои от точно 6 цифри.</span>
+
+        <button type="submit" class="action-btn">Възстанови</button>
+    </form>
+</div>
+
+<script>
+    function openTab(index) {
+        const contents = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-button');
+
+        contents.forEach(c => c.classList.remove('active'));
+        buttons.forEach(b => b.classList.remove('active'));
+
+        contents[index].classList.add('active');
+        buttons[index].classList.add('active');
+    }
+</script>
+
+<div id="success-modal" class="modal">
+    <div class="modal-content">
+        <h3>Успешна операция!</h3>
+        <p>Вашата заявка беше обработена успешно.</p>
+        <a href="#" class="close-btn">Разбрах</a>
+    </div>
+</div>
+
+</body>
+</html>
