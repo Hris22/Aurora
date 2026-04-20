@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="bg" class="light">
 <head>
     <meta charset="UTF-8">
-    <title>Финансови операции</title>
+    <title>Финансови операции - Dark Mode</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     animation: {
@@ -40,22 +41,27 @@
     </script>
 
     <style type="text/tailwindcss">
+        @layer base {
+            option {
+                @apply bg-white text-slate-800 dark:bg-slate-800 dark:text-slate-200;
+            }
+        }
         @layer components {
             .tab-button {
-                @apply bg-white/10 text-white border border-white/20 px-6 py-3 mx-1.5 rounded-[14px] cursor-pointer font-semibold text-[15px] transition-all duration-[400ms] ease-out drop-shadow-sm;
+                @apply bg-white/10 dark:bg-slate-800/40 text-white dark:text-slate-300 border border-white/20 dark:border-slate-600/30 px-6 py-3 mx-1.5 rounded-[14px] cursor-pointer font-semibold text-[15px] transition-all duration-[400ms] ease-out drop-shadow-sm;
             }
             .tab-button:hover {
-                @apply bg-white/30 -translate-y-[3px] shadow-[0_10px_20px_rgba(0,0,0,0.1)];
+                @apply bg-white/30 dark:bg-slate-700/60 -translate-y-[3px] shadow-[0_10px_20px_rgba(0,0,0,0.1)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.4)] dark:text-white;
             }
             .tab-button.active {
-                @apply bg-white text-[#C850C0] border-white drop-shadow-none shadow-[0_8px_25px_rgba(200,80,192,0.4)];
+                @apply bg-white dark:bg-slate-800 text-[#C850C0] dark:text-[#E078D8] border-white dark:border-slate-700 drop-shadow-none shadow-[0_8px_25px_rgba(200,80,192,0.4)] dark:shadow-[0_8px_25px_rgba(200,80,192,0.2)];
             }
 
             .custom-input {
-                @apply w-full px-[18px] py-[15px] rounded-[14px] border-2 border-transparent bg-white/90 text-slate-800 text-[15px] font-medium shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] outline-none transition-all duration-300 placeholder:text-slate-400 placeholder:font-normal;
+                @apply w-full px-[18px] py-[15px] rounded-[14px] border-2 border-transparent bg-white/90 dark:bg-slate-800/90 text-slate-800 dark:text-slate-100 text-[15px] font-medium shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] outline-none transition-all duration-300 placeholder:text-slate-400 dark:placeholder:text-slate-500;
             }
             .custom-input:focus {
-                @apply bg-white border-[#C850C0] ring-[4px] ring-[#C850C0]/15 -translate-y-[2px];
+                @apply bg-white dark:bg-slate-800 border-[#C850C0] dark:border-[#E078D8] ring-[4px] ring-[#C850C0]/15 dark:ring-[#E078D8]/15 -translate-y-[2px];
             }
 
             .action-btn {
@@ -68,26 +74,25 @@
                 @apply translate-y-[1px] shadow-[0_5px_10px_rgba(200,80,192,0.3)];
             }
             .action-btn.loading {
-                @apply opacity-70 cursor-not-allowed !bg-slate-400 !bg-none !shadow-none;
+                @apply opacity-70 cursor-not-allowed !bg-slate-400 dark:!bg-slate-600 !bg-none !shadow-none;
             }
 
+            /* Валидация */
             .custom-input:not(:placeholder-shown):valid {
-                @apply border-[#2ed573] bg-[#f1fdf5];
+                @apply border-[#2ed573] dark:border-[#2ed573]/50 bg-[#f1fdf5] dark:bg-[#2ed573]/10;
             }
-
             .custom-input:focus:invalid {
-                @apply border-[#ffa502] bg-[#fffaf0] ring-[4px] ring-[#ffa502]/15;
+                @apply border-[#ffa502] dark:border-[#ffa502]/50 bg-[#fffaf0] dark:bg-[#ffa502]/10 ring-[4px] ring-[#ffa502]/15;
             }
-
             .custom-input:not(:focus):not(:placeholder-shown):invalid {
-                @apply border-[#ff4757] bg-[#fff0f1];
+                @apply border-[#ff4757] dark:border-[#ff4757]/50 bg-[#fff0f1] dark:bg-[#ff4757]/10;
             }
             
             .custom-input.is-invalid {
-                @apply !border-[#ff4757] !bg-[#fff0f1] !ring-[4px] !ring-[#ff4757]/15;
+                @apply !border-[#ff4757] dark:!border-[#ff4757]/50 !bg-[#fff0f1] dark:!bg-[#ff4757]/10 !ring-[4px] !ring-[#ff4757]/15;
             }
             .custom-input.is-valid {
-                @apply !border-[#2ed573] !bg-[#f1fdf5];
+                @apply !border-[#2ed573] dark:!border-[#2ed573]/50 !bg-[#f1fdf5] dark:!bg-[#2ed573]/10;
             }
 
             .custom-input:not(:placeholder-shown):invalid + .error-msg {
@@ -97,9 +102,18 @@
     </style>
 </head>
 
-<body class="m-0 p-0 min-h-screen font-sans text-slate-800 bg-[linear-gradient(-45deg,#4158D0,#C850C0,#2ee0d1,#ff6b6b)] bg-[length:400%_400%] animate-smoothGradient">
+<body class="m-0 p-0 min-h-screen font-sans text-slate-800 dark:text-slate-200 bg-[linear-gradient(-45deg,#4158D0,#C850C0,#2ee0d1,#ff6b6b)] dark:bg-[linear-gradient(-45deg,#0f172a,#1e1b4b,#020617,#312e81)] bg-[length:400%_400%] animate-smoothGradient transition-colors duration-500 relative">
 
-<nav class="header-menu sticky top-0 z-[1000] flex justify-center flex-wrap py-[15px] w-full bg-white/15 backdrop-blur-[20px] border-b border-white/30 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+<button id="theme-toggle" class="absolute top-4 right-4 z-[1001] p-3 rounded-full bg-white/20 dark:bg-slate-800/50 backdrop-blur-md border border-white/30 dark:border-slate-600/50 shadow-lg transition-transform hover:scale-110">
+    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 3.22a1 1 0 011.415 0l.708.708a1 1 0 01-1.414 1.414l-.708-.708a1 1 0 010-1.414zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zm-3.22 4.22a1 1 0 010 1.415l-.708.708a1 1 0 01-1.414-1.414l.708-.708a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.22-3.22a1 1 0 010-1.415l-.708-.708a1 1 0 01-1.414 1.414l.708.708a1 1 0 011.414 0zM2 10a1 1 0 011-1h1a1 1 0 110 2H3a1 1 0 01-1-1zm3.22-4.22a1 1 0 011.415 0l.708-.708a1 1 0 01-1.414-1.414l-.708.708a1 1 0 010 1.414zM10 5a5 5 0 100 10 5 5 0 000-10z" clip-rule="evenodd"></path>
+    </svg>
+    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-indigo-800" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+    </svg>
+</button>
+
+<nav class="header-menu sticky top-0 z-[1000] flex justify-center flex-wrap py-[15px] w-full bg-white/15 dark:bg-slate-900/40 backdrop-blur-[20px] border-b border-white/30 dark:border-slate-700/50 shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-colors duration-500">
     <button class="tab-button active" onclick="openTab(0)">Кредит</button>
     <button class="tab-button" onclick="openTab(1)">Крипто</button>
     <button class="tab-button" onclick="openTab(2)">Овърдрафт</button>
@@ -110,137 +124,176 @@
 
 <h1 class="text-center text-white mt-[50px] mb-4 text-[36px] font-extrabold tracking-[1px] drop-shadow-[0_4px_15px_rgba(0,0,0,0.2)]">Финансови операции</h1>
 
-<div class="tab-content active [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] border border-white/60">
-    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] bg-clip-text text-transparent">Заявка за кредит</h2>
+<div class="tab-content active [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 dark:bg-slate-900/80 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.5)] border border-white/60 dark:border-slate-700/60 transition-colors duration-500">
+    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] dark:bg-[linear-gradient(135deg,#60A5FA,#E879F9)] bg-clip-text text-transparent">Заявка за кредит</h2>
     <form id="credit-form" novalidate>
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Месечен доход</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Месечен доход</label>
         <input type="number" id="income-input" class="custom-input js-validate-input" step="any" placeholder="Напр. 1500">
-        <span id="income-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Моля, въведете положителна сума над 0.</span>
+        <span id="income-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Моля, въведете положителна сума над 0.</span>
         
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Кредитна история</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Кредитна история</label>
         <select id="history-select" class="custom-input js-validate-input">
             <option value="" disabled selected>Изберете история...</option>
             <option value="good" class="text-[#2ed573] font-bold">Добра</option>
             <option value="average" class="text-[#ffa502] font-bold">Средна</option>
             <option value="bad" class="text-[#ff4757] font-bold">Лоша</option>
         </select>
-        <span id="history-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Моля, изберете кредитната си история.</span>
+        <span id="history-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Моля, изберете кредитната си история.</span>
 
         <button type="submit" id="credit-btn" class="action-btn">Провери</button>
     </form>
 </div>
 
-<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] border border-white/60">
-    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] bg-clip-text text-transparent">Крипто транзакция</h2>
+<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 dark:bg-slate-900/80 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.5)] border border-white/60 dark:border-slate-700/60 transition-colors duration-500">
+    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] dark:bg-[linear-gradient(135deg,#60A5FA,#E879F9)] bg-clip-text text-transparent">Крипто транзакция</h2>
     <form id="crypto-form" novalidate>
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Актив (Валута)</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Актив (Валута)</label>
         <select id="crypto-asset" class="custom-input js-validate-input">
             <option value="" disabled selected>Изберете актив...</option>
             <option value="btc">Bitcoin (BTC)</option>
             <option value="eth">Ethereum (ETH)</option>
             <option value="usdt">Tether (USDT)</option>
         </select>
-        <span id="crypto-asset-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Моля, изберете криптовалута.</span>
+        <span id="crypto-asset-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Моля, изберете криптовалута.</span>
 
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">TxID (Transaction Hash)</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">TxID (Transaction Hash)</label>
         <input type="text" id="crypto-hash" class="custom-input js-validate-input" placeholder="Напр. f4184fc596403b9d...">
-        <span id="crypto-hash-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Хешът трябва да е точно 64 шестнадесетични символа!</span>
+        <span id="crypto-hash-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Хешът трябва да е точно 64 шестнадесетични символа!</span>
 
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Сума</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Сума</label>
         <input type="number" id="crypto-amount" class="custom-input js-validate-input" step="any" placeholder="0.00">
-        <span id="crypto-amount-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Моля, въведете валидна сума над 0.</span>
+        <span id="crypto-amount-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Моля, въведете валидна сума над 0.</span>
 
         <button type="submit" id="crypto-btn" class="action-btn">Изпрати превод</button>
     </form>
 </div>
 
-<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] border border-white/60">
-    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] bg-clip-text text-transparent">Овърдрафт</h2>
+<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 dark:bg-slate-900/80 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.5)] border border-white/60 dark:border-slate-700/60 transition-colors duration-500">
+    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] dark:bg-[linear-gradient(135deg,#60A5FA,#E879F9)] bg-clip-text text-transparent">Овърдрафт</h2>
     <form id="overdraft-form" novalidate>
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Текущ баланс (€)</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Текущ баланс (€)</label>
         <input type="number" id="overdraft-balance" class="custom-input js-validate-input" step="0.01" placeholder="Напр. -150.00">
-        <span id="overdraft-balance-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Моля, въведете валиден числов баланс.</span>
+        <span id="overdraft-balance-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Моля, въведете валиден числов баланс.</span>
 
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Искана сума (€)</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Искана сума (€)</label>
         <input type="number" id="overdraft-amount" class="custom-input js-validate-input" step="0.01" placeholder="Лимит до 2500 €">
-        <span id="overdraft-amount-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Сумата трябва да е между 5 и 2500 €.</span>
+        <span id="overdraft-amount-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Сумата трябва да е между 5 и 2500 €.</span>
 
         <button type="submit" id="overdraft-btn" class="action-btn">Провери лимит</button>
     </form>
 </div>
 
-<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] border border-white/60">
-    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] bg-clip-text text-transparent">Корпоративна карта</h2>
+<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 dark:bg-slate-900/80 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.5)] border border-white/60 dark:border-slate-700/60 transition-colors duration-500">
+    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] dark:bg-[linear-gradient(135deg,#60A5FA,#E879F9)] bg-clip-text text-transparent">Корпоративна карта</h2>
     <form action="#success-modal">
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Ниво на достъп</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Ниво на достъп</label>
         <select id="card-role" class="custom-input" required>
             <option value="employee">Служител</option>
             <option value="manager">Мениджър</option>
             <option value="admin">Администратор</option>
         </select>
 
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Код за оторизация (8-12 знака)</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Код за оторизация (8-12 знака)</label>
         <input type="text" id="card-auth" class="custom-input" pattern="^[A-Z0-9]{8,12}$" placeholder="Напр. EMP1234XYZ" required>
-        <span id="auth-error-msg" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Трябва да съдържа между 8 и 12 главни букви или цифри.</span>
+        <span id="auth-error-msg" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Трябва да съдържа между 8 и 12 главни букви или цифри.</span>
 
         <button type="submit" class="action-btn">Регистрирай</button>
     </form>
 </div>
 
-<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] border border-white/60">
-    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] bg-clip-text text-transparent">Валутен обмен</h2>
+<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 dark:bg-slate-900/80 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.5)] border border-white/60 dark:border-slate-700/60 transition-colors duration-500">
+    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] dark:bg-[linear-gradient(135deg,#60A5FA,#E879F9)] bg-clip-text text-transparent">Валутен обмен</h2>
     <form action="#success-modal">
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">От валута (3 букви)</label>
-        <input type="text" id="ex-from" class="custom-input cursor-not-allowed" value="EUR" readonly>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">От валута (3 букви)</label>
+        <input type="text" id="ex-from" class="custom-input cursor-not-allowed opacity-80" value="EUR" readonly>
 
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Към валута (3 букви)</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Към валута (3 букви)</label>
         <input type="text" id="ex-to" class="custom-input" pattern="^[A-Za-z]{3}$" maxlength="3" required placeholder="Напр. USD">
-        <span id="ex-to-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Въведете точно 3 букви.</span>
+        <span id="ex-to-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Въведете точно 3 букви.</span>
 
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Сума (€)</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Сума (€)</label>
         <input type="number" id="ex-amount" class="custom-input" min="0.01" step="0.01" placeholder="0.00" required>
-        <span id="ex-amount-error" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Моля, въведете валидна сума.</span>
+        <span id="ex-amount-error" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Моля, въведете валидна сума.</span>
 
         <button type="submit" class="action-btn">Обмени</button>
     </form>
 </div>
 
-<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] border border-white/60">
-    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] bg-clip-text text-transparent">Възстановяване на парола</h2>
+<div class="tab-content [&.active]:block [&.active]:animate-slideUp hidden max-w-[420px] mx-auto mt-[30px] mb-[60px] bg-white/85 dark:bg-slate-900/80 backdrop-blur-[25px] py-[40px] px-[35px] rounded-[24px] shadow-[0_25px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.5)] border border-white/60 dark:border-slate-700/60 transition-colors duration-500">
+    <h2 class="mt-0 mb-[30px] text-[24px] font-extrabold bg-[linear-gradient(135deg,#4158D0,#C850C0)] dark:bg-[linear-gradient(135deg,#60A5FA,#E879F9)] bg-clip-text text-transparent">Възстановяване на парола</h2>
     <form action="#success-modal">
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">Email</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">Email</label>
         <input type="email" id="pass-email" class="custom-input" placeholder="name@example.com" required>
-        <span id="email-error-msg" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Въведете валиден имейл адрес.</span>
+        <span id="email-error-msg" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Въведете валиден имейл адрес.</span>
 
-        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600">MFA код (6 цифри)</label>
+        <label class="block mt-[20px] mb-[6px] font-bold text-[13px] text-slate-600 dark:text-slate-400">MFA код (6 цифри)</label>
         <input type="text" id="pass-mfa" class="custom-input" pattern="^[0-9]{6}$" maxlength="6" placeholder="123456" required>
-        <span id="mfa-error-msg" class="error-msg hidden text-[#ff4757] text-[13px] mt-[8px] font-semibold">Кодът трябва да се състои от точно 6 цифри.</span>
+        <span id="mfa-error-msg" class="error-msg hidden text-[#ff4757] dark:text-[#ff6b81] text-[13px] mt-[8px] font-semibold">Кодът трябва да се състои от точно 6 цифри.</span>
 
         <button type="submit" class="action-btn">Възстанови</button>
     </form>
 </div>
 
-<div id="success-modal" class="modal hidden target:flex fixed inset-0 w-full h-full bg-black/40 backdrop-blur-[15px] justify-center items-center z-[2000]">
-    <div class="modal-content bg-white py-[50px] px-[40px] rounded-[24px] text-center shadow-[0_30px_60px_rgba(0,0,0,0.3)] max-w-[320px] border-2 border-white/80 animate-modalScale">
-        <h3 class="bg-[linear-gradient(135deg,#2ed573,#1e90ff)] bg-clip-text text-transparent mt-0 mb-2 text-[28px] font-extrabold">Успешна операция!</h3>
-        <p class="text-slate-500 leading-[1.6] text-[15px] mb-[30px] font-medium">Вашата заявка беше обработена успешно.</p>
+<div id="success-modal" class="modal hidden target:flex fixed inset-0 w-full h-full bg-black/40 dark:bg-black/60 backdrop-blur-[15px] justify-center items-center z-[2000]">
+    <div class="modal-content bg-white dark:bg-slate-800 py-[50px] px-[40px] rounded-[24px] text-center shadow-[0_30px_60px_rgba(0,0,0,0.3)] max-w-[320px] border-2 border-white/80 dark:border-slate-700/80 animate-modalScale">
+        <h3 class="bg-[linear-gradient(135deg,#2ed573,#1e90ff)] dark:bg-[linear-gradient(135deg,#4ADE80,#60A5FA)] bg-clip-text text-transparent mt-0 mb-2 text-[28px] font-extrabold">Успешна операция!</h3>
+        <p class="text-slate-500 dark:text-slate-400 leading-[1.6] text-[15px] mb-[30px] font-medium">Вашата заявка беше обработена успешно.</p>
         <a href="#" class="close-btn inline-block py-[14px] px-[35px] bg-[linear-gradient(135deg,#4158D0,#C850C0)] text-white no-underline rounded-[14px] font-bold shadow-[0_8px_15px_rgba(200,80,192,0.3)] transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_20px_rgba(200,80,192,0.4)]">Разбрах</a>
     </div>
 </div> 
 
-<div id="error-modal" class="modal hidden target:flex fixed inset-0 w-full h-full bg-black/40 backdrop-blur-[15px] justify-center items-center z-[2000]">
-    <div class="modal-content bg-white py-[50px] px-[40px] rounded-[24px] text-center max-w-[320px] animate-modalScale !border-[#ff4757]/40 !shadow-[0_30px_60px_rgba(255,71,87,0.15)]">
-        <h3 id="error-modal-title" class="!bg-[linear-gradient(135deg,#ff4757,#ff6b81)] bg-clip-text text-transparent mt-0 mb-2 text-[28px] font-extrabold">Възникна грешка</h3>
-        <p id="error-modal-desc" class="text-slate-500 leading-[1.6] text-[15px] mb-[30px] font-medium">Нещо се обърка. Моля, опитайте отново.</p>
+<div id="error-modal" class="modal hidden target:flex fixed inset-0 w-full h-full bg-black/40 dark:bg-black/60 backdrop-blur-[15px] justify-center items-center z-[2000]">
+    <div class="modal-content bg-white dark:bg-slate-800 py-[50px] px-[40px] rounded-[24px] text-center max-w-[320px] animate-modalScale !border-[#ff4757]/40 dark:!border-[#ff6b81]/40 !shadow-[0_30px_60px_rgba(255,71,87,0.15)] dark:!shadow-[0_30px_60px_rgba(255,107,129,0.15)]">
+        <h3 id="error-modal-title" class="!bg-[linear-gradient(135deg,#ff4757,#ff6b81)] dark:!bg-[linear-gradient(135deg,#fb7185,#f43f5e)] bg-clip-text text-transparent mt-0 mb-2 text-[28px] font-extrabold">Възникна грешка</h3>
+        <p id="error-modal-desc" class="text-slate-500 dark:text-slate-400 leading-[1.6] text-[15px] mb-[30px] font-medium">Нещо се обърка. Моля, опитайте отново.</p>
         <a href="#" class="close-btn inline-block py-[14px] px-[35px] text-white no-underline rounded-[14px] font-bold transition-all duration-300 hover:-translate-y-[2px] !bg-[linear-gradient(135deg,#ff4757,#ff6b81)] !shadow-[0_8px_15px_rgba(255,71,87,0.3)] hover:!shadow-[0_12px_20px_rgba(255,71,87,0.4)]">Разбрах</a>
     </div>
 </div>
 
 <script>
+    // --- Логика за Dark Mode Toggle ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // Проверка за текущата тема
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        lightIcon.classList.remove('hidden');
+    } else {
+        darkIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', function() {
+        // Смяна на иконите
+        darkIcon.classList.toggle('hidden');
+        lightIcon.classList.toggle('hidden');
+
+        // Смяна на темата
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+        }
+    });
+
+    // --- Оригинален JS код (Без промени в бизнес логиката) ---
+    
+    function openTab(index) {
+        const contents = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-button');
+        contents.forEach(c => c.classList.remove('active'));
+        buttons.forEach(b => b.classList.remove('active'));
+        contents[index].classList.add('active');
+        buttons[index].classList.add('active');
+    }
+
+    // Карта
     const cardRole = document.getElementById('card-role');
     const cardAuth = document.getElementById('card-auth');
     const authErrorMsg = document.getElementById('auth-error-msg');
-
     function validateCorporateCard() {
         const role = cardRole.value;
         const code = cardAuth.value;
@@ -255,20 +308,18 @@
         if (customError) {
             cardAuth.setCustomValidity(customError);
             authErrorMsg.textContent = customError;
-        } else {
-            authErrorMsg.textContent = "Трябва да съдържа между 8 и 12 главни букви или цифри.";
-        }
+        } else { authErrorMsg.textContent = "Трябва да съдържа между 8 и 12 главни букви или цифри."; }
     }
     cardAuth.addEventListener('input', validateCorporateCard);
     cardRole.addEventListener('change', validateCorporateCard);
 
+    // Валута
     const exFrom = document.getElementById('ex-from');
     const exTo = document.getElementById('ex-to');
     const exAmount = document.getElementById('ex-amount');
     const exToError = document.getElementById('ex-to-error');
     const exAmountError = document.getElementById('ex-amount-error');
     const supportedCurrencies = ['USD', 'BGN', 'GBP', 'CHF', 'JPY', 'AUD', 'CAD'];
-
     function validateExchange() {
         const fromCurrency = exFrom.value.toUpperCase();
         const toCurrency = exTo.value.toUpperCase();
@@ -299,12 +350,12 @@
     exTo.addEventListener('input', validateExchange);
     exAmount.addEventListener('input', validateExchange);
 
+    // Парола
     const passEmail = document.getElementById('pass-email');
     const passMfa = document.getElementById('pass-mfa');
     const emailErrorMsg = document.getElementById('email-error-msg');
     const mfaErrorMsg = document.getElementById('mfa-error-msg');
     const disposableDomains = ['tempmail.com', '10minutemail.com', 'mailinator.com', 'guerrillamail.com', 'yopmail.com'];
-
     function validatePasswordRecovery() {
         let emailCustomError = "";
         passEmail.setCustomValidity(""); 
@@ -335,15 +386,7 @@
     passEmail.addEventListener('input', validatePasswordRecovery);
     passMfa.addEventListener('input', validatePasswordRecovery);
 
-    function openTab(index) {
-        const contents = document.querySelectorAll('.tab-content');
-        const buttons = document.querySelectorAll('.tab-button');
-        contents.forEach(c => c.classList.remove('active'));
-        buttons.forEach(b => b.classList.remove('active'));
-        contents[index].classList.add('active');
-        buttons[index].classList.add('active');
-    }
-
+    // Кредит Събмит
     document.getElementById('credit-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const incomeInput = document.getElementById('income-input');
@@ -392,6 +435,7 @@
         }, 1500);
     });
 
+    // Крипто Събмит
     document.getElementById('crypto-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const assetSelect = document.getElementById('crypto-asset');
@@ -449,6 +493,7 @@
         }, 1800);
     });
 
+    // Овърдрафт Събмит
     document.getElementById('overdraft-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const balanceInput = document.getElementById('overdraft-balance');
