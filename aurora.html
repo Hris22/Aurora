@@ -866,17 +866,13 @@ passMfa.addEventListener('input', validatePasswordRecovery);
         }, 1600);
     });
 
-    // Helper function to show dynamic errors
     function showErrorModal(title, message) {
-        // 1. Find the modal elements
         const modalTitle = document.getElementById('error-modal-title');
         const modalDesc = document.getElementById('error-modal-desc');
 
-        // 2. Inject the custom text
         modalTitle.innerText = title;
         modalDesc.innerText = message;
 
-        // 3. Open the modal
         window.location.hash = 'error-modal';
     }
 </script>
