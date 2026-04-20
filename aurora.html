@@ -358,57 +358,216 @@
     </form>
 </div>
 
+<!-- Stefie -->
+
 <div class="tab-content">
     <h2>Корпоративна карта</h2>
     <form action="#success-modal">
         <label>Ниво на достъп</label>
-        <select required>
+        <select id="card-role" required>
             <option value="employee">Служител</option>
             <option value="manager">Мениджър</option>
             <option value="admin">Администратор</option>
         </select>
 
         <label>Код за оторизация (8-12 знака)</label>
-        <input type="text" class="validatable-input" pattern="^[A-Z0-9]{8,12}$" placeholder="Напр. AUTH1234XYZ" required>
-        <span class="error-msg">Трябва да съдържа между 8 и 12 главни букви или цифри.</span>
+        <input type="text" id="card-auth" class="validatable-input" pattern="^[A-Z0-9]{8,12}$" placeholder="Напр. EMP1234XYZ" required>
+        <span id="auth-error-msg" class="error-msg">Трябва да съдържа между 8 и 12 главни букви или цифри.</span>
 
         <button type="submit" class="action-btn">Регистрирай</button>
     </form>
 </div>
 
+<script>
+const cardRole = document.getElementById('card-role');
+const cardAuth = document.getElementById('card-auth');
+const authErrorMsg = document.getElementById('auth-error-msg');
+
+function validateCorporateCard() {
+    const role = cardRole.value;
+    const code = cardAuth.value;
+    
+    let customError = ""; 
+
+    cardAuth.setCustomValidity("");
+
+    if (code && cardAuth.checkValidity()) {
+        
+        const requiredPrefixes = {
+            'employee': 'EMP',
+            'manager': 'MNG',
+            'admin': 'ADM'
+        };
+        const neededPrefix = requiredPrefixes[role];
+
+        if (!code.startsWith(neededPrefix)) {
+            customError = `За тази роля, кодът трябва да започва с "${neededPrefix}".`;
+        } 
+
+        else if (!/\d/.test(code)) {
+            customError = "От съображения за сигурност, кодът трябва да съдържа поне една цифра.";
+        }
+    }
+
+    if (customError) {
+        cardAuth.setCustomValidity(customError);
+        authErrorMsg.textContent = customError;
+    } else {
+        authErrorMsg.textContent = "Трябва да съдържа между 8 и 12 главни букви или цифри.";
+    }
+}
+
+cardAuth.addEventListener('input', validateCorporateCard);
+cardRole.addEventListener('change', validateCorporateCard);
+</script>
+
 <div class="tab-content">
     <h2>Валутен обмен</h2>
     <form action="#success-modal">
         <label>От валута (3 букви)</label>
-        <input type="text" class="validatable-input" pattern="^[A-Za-z]{3}$" maxlength="3" required value="EUR" readonly>
-        <span class="error-msg">Въведете точно 3 букви.</span>
+        <input type="text" id="ex-from" class="validatable-input" value="EUR" readonly>
 
         <label>Към валута (3 букви)</label>
-        <input type="text" class="validatable-input" pattern="^[A-Za-z]{3}$" maxlength="3" required placeholder="Напр. USD">
-        <span class="error-msg">Въведете точно 3 букви.</span>
+        <input type="text" id="ex-to" class="validatable-input" pattern="^[A-Za-z]{3}$" maxlength="3" required placeholder="Напр. USD">
+        <span id="ex-to-error" class="error-msg">Въведете точно 3 букви.</span>
 
         <label>Сума (€)</label>
-        <input type="number" class="validatable-input" min="0.01" step="0.01" placeholder="0.00" required>
-        <span class="error-msg">Моля, въведете валидна сума.</span>
+        <input type="number" id="ex-amount" class="validatable-input" min="0.01" step="0.01" placeholder="0.00" required>
+        <span id="ex-amount-error" class="error-msg">Моля, въведете валидна сума.</span>
 
         <button type="submit" class="action-btn">Обмени</button>
     </form>
 </div>
 
+<script>
+
+const exFrom = document.getElementById('ex-from');
+const exTo = document.getElementById('ex-to');
+const exAmount = document.getElementById('ex-amount');
+const exToError = document.getElementById('ex-to-error');
+const exAmountError = document.getElementById('ex-amount-error');
+
+const supportedCurrencies = ['USD', 'BGN', 'GBP', 'CHF', 'JPY', 'AUD', 'CAD'];
+
+function validateExchange() {
+    const fromCurrency = exFrom.value.toUpperCase();
+    const toCurrency = exTo.value.toUpperCase();
+    const amount = parseFloat(exAmount.value);
+
+    let toCustomError = "";
+    exTo.setCustomValidity("");
+    
+    if (exTo.value && exTo.checkValidity()) {
+        if (toCurrency === fromCurrency) {
+            toCustomError = "Не можете да обменяте към същата валута.";
+        } else if (!supportedCurrencies.includes(toCurrency)) {
+            toCustomError = `Неподдържана валута. Опитайте: ${supportedCurrencies.slice(0, 4).join(', ')}...`;
+        }
+    }
+
+    if (toCustomError) {
+        exTo.setCustomValidity(toCustomError);
+        exToError.textContent = toCustomError;
+    } else {
+        exToError.textContent = "Въведете точно 3 букви.";
+    }
+
+    let amountCustomError = "";
+    exAmount.setCustomValidity("");
+
+    if (!isNaN(amount) && amount > 0) {
+        if (amount > 10000) {
+            amountCustomError = "Суми над €10,000 изискват посещение в клон (AML регулация).";
+        } 
+        else if (toCurrency === 'JPY' && amount < 50) {
+            amountCustomError = "Минималната сума за обмяна в JPY (Йени) е €50.00.";
+        }
+    }
+
+    if (amountCustomError) {
+        exAmount.setCustomValidity(amountCustomError);
+        exAmountError.textContent = amountCustomError;
+    } else {
+        exAmountError.textContent = "Моля, въведете валидна сума.";
+    }
+}
+
+exTo.addEventListener('input', validateExchange);
+exAmount.addEventListener('input', validateExchange);
+</script>
+
 <div class="tab-content">
     <h2>Възстановяване на парола</h2>
     <form action="#success-modal">
         <label>Email</label>
-        <input type="email" class="validatable-input" placeholder="name@example.com" required>
-        <span class="error-msg">Въведете валиден имейл адрес.</span>
+        <input type="email" id="pass-email" class="validatable-input" placeholder="name@example.com" required>
+        <span id="email-error-msg" class="error-msg">Въведете валиден имейл адрес.</span>
 
         <label>MFA код (6 цифри)</label>
-        <input type="text" class="validatable-input" pattern="^[0-9]{6}$" maxlength="6" placeholder="123456" required>
-        <span class="error-msg">Кодът трябва да се състои от точно 6 цифри.</span>
+        <input type="text" id="pass-mfa" class="validatable-input" pattern="^[0-9]{6}$" maxlength="6" placeholder="123456" required>
+        <span id="mfa-error-msg" class="error-msg">Кодът трябва да се състои от точно 6 цифри.</span>
 
         <button type="submit" class="action-btn">Възстанови</button>
     </form>
 </div>
+<script>
+    // Вземаме елементите за Възстановяване на парола
+const passEmail = document.getElementById('pass-email');
+const passMfa = document.getElementById('pass-mfa');
+const emailErrorMsg = document.getElementById('email-error-msg');
+const mfaErrorMsg = document.getElementById('mfa-error-msg');
+
+const disposableDomains = ['tempmail.com', '10minutemail.com', 'mailinator.com', 'guerrillamail.com', 'yopmail.com'];
+
+function validatePasswordRecovery() {
+
+    let emailCustomError = "";
+    passEmail.setCustomValidity(""); 
+    if (passEmail.value && passEmail.checkValidity()) {
+        const emailParts = passEmail.value.split('@');
+        if (emailParts.length === 2) {
+            const domain = emailParts[1].toLowerCase();
+            
+            if (disposableDomains.includes(domain)) {
+                emailCustomError = "Използването на временни имейл адреси не е позволено за финансови акаунти.";
+            }
+        }
+    }
+
+    if (emailCustomError) {
+        passEmail.setCustomValidity(emailCustomError);
+        emailErrorMsg.textContent = emailCustomError;
+    } else {
+        emailErrorMsg.textContent = "Въведете валиден имейл адрес.";
+    }
+
+    let mfaCustomError = "";
+    passMfa.setCustomValidity("");
+
+    if (passMfa.value && passMfa.checkValidity()) {
+        const mfaValue = passMfa.value;
+
+        // Проверка за 6 еднакви цифри (напр. 000000, 111111, 222222)
+        // Използваме Regex: хващаме първата цифра (\d) и проверяваме дали се повтаря още 5 пъти \1{5}
+        if (/^(\d)\1{5}$/.test(mfaValue)) {
+            mfaCustomError = "Кодът не може да се състои от 6 еднакви цифри.";
+        } 
+        // Проверка за тривиална последователност
+        else if (mfaValue === "123456" || mfaValue === "654321" || mfaValue === "012345") {
+            mfaCustomError = "Въведен е твърде лесен код. Моля, проверете реалния код във вашия автентикатор.";
+        }
+    }
+
+    if (mfaCustomError) {
+        passMfa.setCustomValidity(mfaCustomError);
+        mfaErrorMsg.textContent = mfaCustomError;
+    } else {
+        mfaErrorMsg.textContent = "Кодът трябва да се състои от точно 6 цифри.";
+    }
+}
+passEmail.addEventListener('input', validatePasswordRecovery);
+passMfa.addEventListener('input', validatePasswordRecovery);
+</script>
 
 <script>
     function openTab(index) {
